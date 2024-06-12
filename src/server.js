@@ -2,8 +2,8 @@ import http from "node:http"
 
 
 const users = []
-const handleRoutes = ((req, res) => {
-
+const handleRoutes = (async (req, res) => {
+  req.pipe()
   const { method, url } = req
   /**
    * id

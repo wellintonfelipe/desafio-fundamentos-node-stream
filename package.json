@@ -2,15 +2,19 @@
   "name": "desafio-fundamentos-node-stream",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "type": "module",
   "engines": {
     "node": "20.12.2"
   },
   "scripts": {
-    "dev": "node --watch src/server.js"
+    "dev": "node --watch src/server.js",
+    "server": "node --watch streams/index.js",
+    "client": "node --watch streams/client.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2"
+  }
 }
