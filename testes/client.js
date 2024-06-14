@@ -1,20 +1,36 @@
-import { Transform, pipeline } from "node:stream"
-import axios from "axios"
+import { stdout } from "node:process"
+import { Readable } from "node:stream"
 
+class SendDataInStream extends Readable {
+  index = 1
 
+  _read() {
 
-async function consumer() {
-  const url = "https://watch.brplayer.site/watch?v=GTSR0FDQ"
-  const response = await axios({
-    url,
-    method: "get",
-    responseType: "stream"
-  })
+    const i = this.index++
 
-  const buf = Buffer.from(String(response.data))
-  return buf
+    const data = [{
+      id: crypto.randomUUID(),
+      name: 'Wellinton felipe'
+    }]
+
+    setTimeout(() => {
+      if (i > 100) {
+        this.push(null)
+      } else {
+        const buf = Buffer
+          .from(String(data.map(({ id, name }) => {
+            return `${i} ${name.toLocaleUpperCase()} ${(id)}\n`
+          })))
+
+        this.push(buf)
+      }
+    }, 1000)
+
+  }
 }
 
-const stream = await consumer()
-
-stream()
+fetch('http://localhost:3002', {
+  method: "POST",
+  body: new SendDataInStream(),
+  duplex: "half"
+})

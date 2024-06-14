@@ -6,13 +6,14 @@ class InverseNumberStream extends Transform {
 
     //transformando um pedaço (chunk), em uma numero negativo
     const transformed = Number(chunk.toString()) * -1
+
+    console.log(transformed)
+
     //Transformando o numero em um texto
     const buf = Buffer.from(String(transformed))
 
     //primeiro parametro é um erro; ex: ==> new Error('Ivalide value')
-    //segundo parametro e o dado
-
-    console.log(buf)
+    //segundo parametro são os dados
     callback(null, buf)
   }
 }
@@ -21,7 +22,7 @@ class InverseNumberStream extends Transform {
 
 const server = (req, res) => {
   return req
-    .pipe(new InverseNumberStream)
+    .pipe(new InverseNumberStream())
     .pipe(res)
 }
 
