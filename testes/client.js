@@ -1,4 +1,4 @@
-import { stdout } from "node:process"
+import { randomUUID } from "node:crypto"
 import { Readable } from "node:stream"
 
 class SendDataInStream extends Readable {
@@ -8,23 +8,26 @@ class SendDataInStream extends Readable {
 
     const i = this.index++
 
-    const data = [{
-      id: crypto.randomUUID(),
-      name: 'Wellinton felipe'
-    }]
+
 
     setTimeout(() => {
-      if (i > 100) {
+
+      const data = [{
+        id: randomUUID(),
+        name: " Wellinton Felipe"
+      }]
+
+      if (i > 5) {
+        console.log("Fim da Contagem")
         this.push(null)
       } else {
         const buf = Buffer
           .from(String(data.map(({ id, name }) => {
-            return `${i} ${name.toLocaleUpperCase()} ${(id)}\n`
+            return `${i}, ${name.toLocaleUpperCase()}, ${id}\n`
           })))
-
         this.push(buf)
       }
-    }, 1000)
+    }, 10)
 
   }
 }
@@ -33,4 +36,6 @@ fetch('http://localhost:3002', {
   method: "POST",
   body: new SendDataInStream(),
   duplex: "half"
-})
+}).then(response => {
+  return response.text()
+}).then(data => data)
