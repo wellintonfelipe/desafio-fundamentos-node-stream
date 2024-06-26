@@ -23,6 +23,9 @@ export const routes = [
     path: buildRoutePath("/task"),
     handler: (req, res) => {
       const { title, description } = req.body
+      if (!title || !description) {
+        return res.writeHeader(500).end('Title and Description is required!\n')
+      }
 
       const task = {
         id: UUid(),
@@ -42,8 +45,14 @@ export const routes = [
     method: "PUT",
     path: buildRoutePath("/task/:id"),
     handler: (req, res) => {
+
       const { id } = req.params
       const { title, description } = req.body
+
+      if (!title || !description) {
+        return res.writeHeader(500).end('Title and Description is required!\n')
+      }
+
 
       database.update("task", id, {
         title,
