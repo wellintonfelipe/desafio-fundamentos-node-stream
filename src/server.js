@@ -1,38 +1,50 @@
 import http from "node:http"
+import { json } from "./middlewares/json.js"
+import { Database } from "./database.js"
+import { randomUUID as UUid } from "node:crypto"
 
 
-const users = []
+// const users = []
+const database = new Database()
+
 const handleRoutes = (async (req, res) => {
-  req.pipe()
-  const { method, url } = req
-  /**
-   * id
-   * title
-   * description
-   * completed_at default NULL
-   * created_at
-   * update_at 
-   */
 
-  if (method === "GET" && url === "/users") {
-    return res
-      .setHeader('Content-Type', "aplication/json")
-      .writeHeader(200)
-      .end(JSON.stringify(users))
+  const { method, url } = req
+
+  await json(req, res)
+
+
+  if (method === "GET" && url === "/task") {
+    const task = database.select('task')
+
+    return res.end(JSON.stringify(task))
   }
 
-  if (method === "POST" && url === "/users") {
-    users.push({
-      id: 1,
-      name: "John Doe",
-      email: 'joehdoe@example.com'
-    })
+  if (method === "GET" && url === "/task") {
+    const task = database.select('task')
+
+    return res.end(JSON.stringify(task))
+  }
+
+
+
+  if (method === "POST" && url === "/task") {
+    const { title, description } = req.body
+
+    const task = {
+      id: UUid(),
+      title,
+      description,
+      completed_at: null,
+      create_at: new Date(),
+      updated_at: new Date()
+    }
+
+    database.insert('task', task)
     return res.writeHeader(201).end()
   }
 
-  return res.writeHeader(404).end()
-
-
+  return res.writeHeader(404).end(JSON.stringify(task))
 
 })
 
