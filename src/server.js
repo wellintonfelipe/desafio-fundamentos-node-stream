@@ -7,7 +7,9 @@ import { routes } from "./routes.js"
 
 const handleRoutes = (async (req, res) => {
 
-  const { method, url } = req
+  const { method, url, file } = req
+
+  console.log(file)
 
   await json(req, res)
 

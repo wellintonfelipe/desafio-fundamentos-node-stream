@@ -41,14 +41,6 @@ export class Database {
     return data
   }
 
-  /** 
-  id: 'd5108adb-6eaf-49ee-b11d-960078eaa43c',
-  title: 'Verificar e-mail',
-  description: '1fee3b4e-da18-4921-b4fe-5313d4bbaa71, atualização',
-  updated_at: '2024-06-26T22:01:56.365Z' 
-   * 
-   */
-
   update(table, id, data) {
     const rowIndex = this.#database[table]
       .findIndex(row => row.id === id)

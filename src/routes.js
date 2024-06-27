@@ -1,6 +1,7 @@
 import { randomUUID as UUid } from "node:crypto"
 import { Database } from "./database.js"
 import { buildRoutePath } from "./utils/build-route-path.js"
+import { importFileCSV } from "./import-file-csv.js"
 
 
 // Query Parameters
@@ -13,9 +14,9 @@ export const routes = [
     method: "GET",
     path: buildRoutePath("/task"),
     handler: (req, res) => {
-      const users = database.select('task')
+      const task = database.select('task')
 
-      return res.end(JSON.stringify(users))
+      return res.end(JSON.stringify(task))
     }
   },
   {
@@ -89,6 +90,18 @@ export const routes = [
 
       return res.writeHeader(201).end()
 
+    }
+  },
+
+  // => upload de arquivo csv
+  {
+    method: "POST",
+    path: buildRoutePath("/task/file"),
+    handler: (req, res) => {
+
+      importFileCSV(req, res)
+
+      return res.end(JSON.stringify(task))
     }
   }
 ]

@@ -13,5 +13,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "csv": "^6.3.9",
+    "csv-generate": "^4.4.1"
+  }
 }
